@@ -1,4 +1,5 @@
 # Getting Started
+
 ## Properties
 ### allure.properties
 Куда будут сохраняться тесты после выполнения. Изначально всегда генерирует в папку *"build/allure-results"* и 
