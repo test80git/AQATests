@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/AQATests.iml" filepath="$PROJECT_DIR$/.idea/AQATests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/e2e-playwright.test.iml" filepath="$PROJECT_DIR$/.idea/modules/e2e-playwright.test.iml" />
     </modules>
   </component>
 </project>
