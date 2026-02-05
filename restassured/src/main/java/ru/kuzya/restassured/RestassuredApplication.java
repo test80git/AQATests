@@ -1,13 +1,13 @@
-package ru.kuzya.restassuredselenide;
+package ru.kuzya.restassured;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RestassuredSelenideApplication {
+public class RestassuredApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RestassuredSelenideApplication.class, args);
+        SpringApplication.run(RestassuredApplication.class, args);
     }
 
 }

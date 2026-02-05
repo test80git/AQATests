@@ -1,0 +1,82 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version "$springBootVersion"
+    id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
+    id 'io.qameta.allure' version "$allurePlugin"
+
+}
+
+group = 'ru.kuzya'
+version = '0.0.1-SNAPSHOT'
+description = 'restassured'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+allure {
+    version = '2.24.0'
+    autoconfigure = true
+    aspectjweaver = true
+
+    useJUnit5 {
+        version = '2.24.0'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile){
+    options.encoding = 'UTF-8'
+}
+
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation "io.qameta.allure:allure-junit5:$allureJunit5Version"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    testImplementation 'io.rest-assured:rest-assured:5.5.0'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.17.0'
+    testImplementation "com.codeborne:selenide:$selenideVersion"
+    testImplementation "io.github.bonigarcia:webdrivermanager:$webDriverManagerVersion"
+
+    // Allure
+    testImplementation "io.qameta.allure:allure-junit5:$allureJunit5Version"
+    testImplementation "io.qameta.allure:allure-rest-assured:$allureJunit5Version"
+    testImplementation "io.qameta.allure:allure-selenide:$allureJunit5Version"
+}
+
+def apiTest = tasks.register("apiTests", Test) {
+    useJUnitPlatform {
+        includeTags "API"
+    }
+}
+
+def uiTest = tasks.register("uiTests", Test) {
+    useJUnitPlatform {
+        includeTags "UI"
+    }
+//    onlyIf { false }  // Не запускать, если нет UI тестов
+}
+
+
+tasks.named('test') {
+    useJUnitPlatform()
+    // Включить параллельное выполнение
+    systemProperties = [
+            'junit.jupiter.execution.parallel.enabled': 'true',
+            'junit.jupiter.execution.parallel.config.fixed.parallelism': '2'
+    ]
+}
