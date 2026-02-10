@@ -5,6 +5,7 @@ plugins {
     id 'org.springframework.boot' version '4.0.2'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'io.qameta.allure' version '2.11.2'
+    id 'io.freefair.lombok' version '8.6'
 
 }
 
@@ -36,7 +37,23 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation "io.qameta.allure:allure-junit5:2.24.0"
+    testImplementation "io.qameta.allure:allure-junit5:2.26.0"
+
+    testImplementation 'io.rest-assured:rest-assured:4.5.1'
+    implementation 'io.qameta.allure:allure-rest-assured:2.26.0'
+
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.3")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.3")
+
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    // Mockito для моков
+    testImplementation 'org.mockito:mockito-core:5.11.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.11.0'
+
+    // Для inline моков (если используете)
+    testImplementation 'org.mockito:mockito-inline:5.2.0'
 }
 
 tasks.named('test') {
@@ -45,6 +62,7 @@ tasks.named('test') {
         events "passed", "skipped", "failed"
     }
 }
+
 
 task rerunTests(type: Exec) {
     def testFilePath = "${project.projectDir}/src/test/resources/FailedTests.txt"
@@ -69,3 +87,4 @@ task rerunTests(type: Exec) {
     }
     println "Tests rerun completed"
 }
+

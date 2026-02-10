@@ -1,1 +1,1 @@
-ru.kuzya.qaextensions.QaExtensionsApplicationTests.contextLoads*
+ru.kuzya.qaextensions.QaExtensionsApplicationTests.simpleGetTest*
