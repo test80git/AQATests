@@ -8,13 +8,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.kuzya.qaextensions.callbacs.TestCallback;
 import ru.kuzya.qaextensions.callbacs.TestSaver;
 import ru.kuzya.qaextensions.models.User;
 import ru.kuzya.qaextensions.parameters.RandomUser;
 import ru.kuzya.qaextensions.parameters.RandomUserResolver;
 
 @SpringBootTest
-@ExtendWith({RandomUserResolver.class})
+@ExtendWith({RandomUserResolver.class, TestSaver.class, TestCallback.class})
 class QaExtensionsApplicationTests {
 
     @BeforeEach

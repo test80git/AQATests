@@ -1,7 +1,11 @@
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '4.0.2'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'io.qameta.allure' version '2.11.2'
+
 }
 
 group = 'ru.kuzya'
@@ -10,20 +14,58 @@ description = 'QAExtensions'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
+allure {
+    version = '2.24.0'
+    autoconfigure = true
+    aspectjweaver = true
 
+    useJUnit5 {
+        version = '2.24.0'
+    }
+}
 repositories {
     mavenCentral()
 }
+
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation "io.qameta.allure:allure-junit5:2.24.0"
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+task rerunTests(type: Exec) {
+    def testFilePath = "${project.projectDir}/src/test/resources/FailedTests.txt"
+    def os = DefaultNativePlatform.currentOperatingSystem;
+    println "Checking for test file at: $testFilePath"
+
+    def terminal = os.isWindows() ? "cmd" : "bash"
+    def commandKey = os.isWindows() ? "/c" : "-c"
+    if (new File(testFilePath).exists()) {
+        def testFileContent = new File(testFilePath).text.trim()
+        if (!testFileContent.isEmpty()) {
+            if (os.isWindows()) {
+                commandLine 'cmd', '/c', "gradlew.bat clean test $testFileContent"
+            } else {
+                commandLine 'bash', '-c', "./gradlew clean test $testFileContent"
+            }
+        } else {
+            commandLine terminal, commandKey, "echo test file does not exist"
+        }
+    } else {
+        commandLine terminal, commandKey, "echo test file does not exist"
+    }
+    println "Tests rerun completed"
 }
