@@ -52,6 +52,11 @@ dependencies {
     testImplementation "com.codeborne:selenide:$selenideVersion"
     testImplementation "io.github.bonigarcia:webdrivermanager:$webDriverManagerVersion"
 
+    testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.25.0'
+    implementation("org.seleniumhq.selenium:selenium-java:4.25.0")
+    testImplementation "org.seleniumhq.selenium:selenium-devtools-v144:4.40.0" // Соответствует версии Chrome
+
+
     // Allure
     testImplementation "io.qameta.allure:allure-junit5:$allureJunit5Version"
     testImplementation "io.qameta.allure:allure-rest-assured:$allureJunit5Version"
