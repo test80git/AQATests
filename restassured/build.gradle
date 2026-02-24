@@ -76,6 +76,7 @@ def apiTest = tasks.register("apiTests", Test) {
 def uiTest = tasks.register("uiTests", Test) {
     useJUnitPlatform {
         includeTags "UI"
+        includeTags "UI_Collection"
     }
 //    onlyIf { false }  // Не запускать, если нет UI тестов
 }
